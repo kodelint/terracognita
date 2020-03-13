@@ -6,11 +6,11 @@ import (
 	"fmt"
 )
 
-const _ResourceTypeName = "azurerm_dummy_resource"
+const _ResourceTypeName = "azurerm_resource_groupazurerm_virtual_machineazurerm_virtual_network"
 
-var _ResourceTypeIndex = [...]uint8{0, 22}
+var _ResourceTypeIndex = [...]uint8{0, 22, 45, 68}
 
-const _ResourceTypeLowerName = "azurerm_dummy_resource"
+const _ResourceTypeLowerName = "azurerm_resource_groupazurerm_virtual_machineazurerm_virtual_network"
 
 func (i ResourceType) String() string {
 	if i < 0 || i >= ResourceType(len(_ResourceTypeIndex)-1) {
@@ -19,15 +19,30 @@ func (i ResourceType) String() string {
 	return _ResourceTypeName[_ResourceTypeIndex[i]:_ResourceTypeIndex[i+1]]
 }
 
-var _ResourceTypeValues = []ResourceType{0}
+// An "invalid array index" compiler error signifies that the constant values have changed.
+// Re-run the stringer command to generate them again.
+func _ResourceTypeNoOp() {
+	var x [1]struct{}
+	_ = x[ResourceGroup-(0)]
+	_ = x[VirtualMachine-(1)]
+	_ = x[VirtualNetwork-(2)]
+}
+
+var _ResourceTypeValues = []ResourceType{ResourceGroup, VirtualMachine, VirtualNetwork}
 
 var _ResourceTypeNameToValueMap = map[string]ResourceType{
-	_ResourceTypeName[0:22]:      0,
-	_ResourceTypeLowerName[0:22]: 0,
+	_ResourceTypeName[0:22]:       ResourceGroup,
+	_ResourceTypeLowerName[0:22]:  ResourceGroup,
+	_ResourceTypeName[22:45]:      VirtualMachine,
+	_ResourceTypeLowerName[22:45]: VirtualMachine,
+	_ResourceTypeName[45:68]:      VirtualNetwork,
+	_ResourceTypeLowerName[45:68]: VirtualNetwork,
 }
 
 var _ResourceTypeNames = []string{
 	_ResourceTypeName[0:22],
+	_ResourceTypeName[22:45],
+	_ResourceTypeName[45:68],
 }
 
 // ResourceTypeString retrieves an enum value from the enum constants string name.
