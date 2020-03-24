@@ -15,6 +15,7 @@ type ResourceType int
 
 //go:generate enumer -type ResourceType -addprefix azurerm_ -transform snake -linecomment
 const (
+	ResourceGroup  ResourceType = iota
 	VirtualMachine ResourceType = iota
 	VirtualNetwork ResourceType = iota
 )
@@ -23,10 +24,19 @@ type rtFn func(ctx context.Context, a *azurerm, resourceType string, tags []tag.
 
 var (
 	resources = map[ResourceType]rtFn{
+		ResourceGroup:  resourceGroup,
 		VirtualMachine: virtualMachines,
 		VirtualNetwork: virtualNetworks,
 	}
 )
+
+func resourceGroup(ctx context.Context, a *azurerm, resourceType string, tags []tag.Tag) ([]provider.Resource, error) {
+	resourceGroup := a.azurer.GetResourceGroup()
+	resources := make([]provider.Resource, 0)
+	r := provider.NewResource(*resourceGroup.ID, resourceType, a)
+	resources = append(resources, r)
+	return resources, nil
+}
 
 func virtualMachines(ctx context.Context, a *azurerm, resourceType string, tags []tag.Tag) ([]provider.Resource, error) {
 	virtualMachines, err := a.azurer.ListVirtualMachines(ctx)
